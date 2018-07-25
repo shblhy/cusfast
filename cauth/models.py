@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import PermissionsMixin, AbstractUser, UserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
+from exlib.django.core.validators import validate_telephone
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -13,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     email = models.EmailField(_('email address'), blank=True)
-    telephone = models.IntegerField(_('telephone'), blank=True, null=True)
+    telephone = models.CharField(_('telephone'), max_length=32, validators=[validate_telephone], blank=True, null=True)
     # 想写多语言？创建locale文件夹，并执行python manage.py makemessages -l zh_Hans
     is_staff = models.BooleanField(
         _('staff status'),
