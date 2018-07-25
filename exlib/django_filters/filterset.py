@@ -29,6 +29,9 @@ class SfieldFilterSet(FilterSet):
 
 
 class NatualFilterSet(SfieldFilterSet):
+    """
+        对fields = ('username': ['icontains']) 将查询key由username__icontains改为username，更为自然
+    """
     @property
     def qs(self):
         if not hasattr(self, '_qs'):
