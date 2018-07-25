@@ -1,66 +1,17 @@
-import django_filters
-from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.shortcuts import get_object_or_404
-from django.http.response import HttpResponse
+from django.views.generic.base import View
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework import generics, viewsets, renderers
 from rest_framework.response import Response
 from rest_framework.viewsets import mixins
-from rest_framework.decorators import action, permission_classes, api_view
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from exlib.rest_framework.pagination import PageCodePagination
-from .models import User
-from .serializers import UserSerializer, UserEasySerializer, AuthenticationSerializer, SendEmailSerializer
-from .filters import UserFilter
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    pagination_class = PageCodePagination
-    filter_class = UserFilter
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    @action(detail=False, methods=['post'])
-    def send_email(self, request):
-        form = SendEmailSerializer(data=request.data)
-        if not form.is_valid():
-            return Response({'success': False, 'req payload': request.data, 'messages': form.errors}, status=400)
-        request.user.send_email(**form.cleaned_data)
-        return Response({'success': True})
-
-    @action(detail=False, methods=['post'])
-    def info(self, request):
-        return Response(UserSerializer(request.user).data)
-
-
-class LoginView(generics.GenericAPIView, mixins.CreateModelMixin):
-    serializer_class = AuthenticationSerializer
-
-    def post(self, request, format=None):
-        form = AuthenticationSerializer(data=request.data, request=request)
-        if form.is_valid():
-            auth_login(self.request, form.user)
-            return Response({'success': True})
-        else:
-            return Response({'success': False, 'req payload': request.data, 'messages': form.errors}, status=400)
-
-
-@api_view(["GET"])
-@permission_classes([IsAuthenticated,])
-def loginout(request):
-    auth_logout(request)
-    return Response({'success': True})
+from exlib.django.core.serializers.json import DjangoTJSONEncoder
+from cauth.models import User
+from cauth.serializers import UserSerializer
 
 
 #****************************************一些示例，复制粘贴用****************************************
 # View -> APIView -> GenericAPIView
-from django.views.generic.base import View
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
-from exlib.django.core.serializers.json import DjangoTJSONEncoder
 
 
 def getuser(request):
@@ -156,4 +107,3 @@ class DemoGRetrieveAPIView(generics.GenericAPIView, mixins.RetrieveModelMixin):
 class DemoListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-

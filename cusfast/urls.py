@@ -19,7 +19,7 @@ from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('cauth.urls')),
+    path('cauth/', include('cauth.urls')),
     path('swagdocs/', get_swagger_view(title='API docs')),
     path('admindocs/', include('django.contrib.admindocs.urls'))
 ]

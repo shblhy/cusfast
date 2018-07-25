@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_('username'), max_length=255, blank=True, unique=True)
-    nickname = models.CharField(_('nickname'), max_length=150, default='',
+    nickname = models.CharField('昵称', max_length=150, default='',
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         error_messages={
             'unique': _("A user with that nickname already exists."),
@@ -14,8 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(_('email address'), blank=True)
     telephone = models.IntegerField(_('telephone'), blank=True, null=True)
-    STATUS_CHOICES = ((0, 'active'), (1, 'disable'))
-    status = models.IntegerField(default=0)
+    # 想写多语言？创建locale文件夹，并执行python manage.py makemessages -l zh_Hans
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,

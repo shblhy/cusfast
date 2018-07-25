@@ -10,6 +10,5 @@ class UserFilter(FilterSet):
             'id': ['exact'],
             'username': ['icontains'],
             'nickname': ['icontains'],
-            'status': ['exact'],
             'groups': ['exact']
         }

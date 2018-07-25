@@ -1,22 +1,26 @@
 from django.conf.urls import url, include
-from cauth.views import DemoUserView, DemoUserListView, DemoAPIView, DemoGListAPIView, DemoGRetrieveAPIView, DemoListAPIView
 from rest_framework import routers
-from .views import UserViewSet, LoginView, loginout, getuser
-router_user = routers.DefaultRouter(trailing_slash=False)
-router_user.register('', UserViewSet)
+from cauth.views import UserViewSet, GroupViewSet, AuthView, LoginView, loginout, SendEmailView
+from cauth.views import DemoUserView, DemoUserListView, DemoAPIView, DemoGListAPIView, DemoGRetrieveAPIView, DemoListAPIView, getuser
+router = routers.DefaultRouter(trailing_slash=False)
+router.register('user', UserViewSet)
+router.register('group', GroupViewSet)
 
 
 urlpatterns = [
-    url(r'^loginout$', loginout),
-    url(r'^login$', LoginView.as_view(), name='login'),
+    url('loginout$', loginout),
+    url('login$', LoginView.as_view(), name='login'),
+    url('auth', AuthView.as_view(), name='auth'),
+    url('send_email', SendEmailView.as_view(), name='login'),
+
     # --------------------demo---------------------------
-    url(r'^getuser/', getuser),
-    url(r'^demouserlist/', DemoUserListView.as_view(), name='courses'),
-    url(r'^demouser/', DemoUserView.as_view()),
-    url(r'^demouserapiview/', DemoAPIView.as_view()),
-    url(r'^demousergrapi/(?P<pk>[0-9]+)/', DemoGRetrieveAPIView.as_view()),
-    url(r'^demouserglapi/', DemoGListAPIView.as_view()),
-    url(r'^demouserlapi/', DemoListAPIView.as_view()),
+    url('getuser/', getuser),
+    url('demouserlist/', DemoUserListView.as_view(), name='courses'),
+    url('demouser/', DemoUserView.as_view()),
+    url('demouserapiview/', DemoAPIView.as_view()),
+    url('demousergrapi/(?P<pk>[0-9]+)/', DemoGRetrieveAPIView.as_view()),
+    url('demouserglapi/', DemoGListAPIView.as_view()),
+    url('demouserlapi/', DemoListAPIView.as_view()),
     # --------------------demo---------------------------
-    url(r'^', include(router_user.urls)),
+    url('', include(router.urls)),
 ]
