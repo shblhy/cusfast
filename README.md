@@ -14,9 +14,9 @@ cusfast
 
     更新settings DATABASES(默认sqlite3)或者写一份自己的 settings_local.py(见最后）
 
-    执行migrate应用表到数据库，执行createsuperuser创建管理员。
+    安装依赖（本项目仅适用python3），执行migrate应用表到数据库，执行createsuperuser创建管理员。
 
-    你可以从cauth模块中找到多种常见功能的写法，拷贝到你需要的位置去。
+    你可以从cauth模块中找到多种常见功能的实现，拷贝到你需要的位置去。
 
     然后专注于你的开发吧~~
 
@@ -47,8 +47,8 @@ cusfast
 3. settings初步配置
 
 
-        LANGUAGE_CODE = 'en-us'	->	LANGUAGE_CODE = 'zh-cn' 或zh_Hans 与django.conf.locale下一致,注意编码unicode与翻译str的转化
-        TIME_ZONE = 'UTC'	->	TIME_ZONE = 'Asia/Shanghai'
+        LANGUAGE_CODE='en-us' -> LANGUAGE_CODE = 'zh-cn' 或zh_Hans 与django.conf.locale下一致,注意编码unicode与翻译str的转化
+        TIME_ZONE = 'UTC' -> TIME_ZONE = 'Asia/Shanghai'
         try:
             from .settings_local import *
         except:

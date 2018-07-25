@@ -17,9 +17,11 @@ class UserViewSet(viewsets.ModelViewSet):
     # just demo
     @action(detail=False, methods=['post'])
     def send_email(self, request):
-        form = SendEmailSerializer(data=request.data)
-        if not form.is_valid():
-            return Response({'success': False, 'req payload': request.data, 'messages': form.errors}, status=400)
-        request.user.send_email(**form.cleaned_data)
-        return Response({'success': True})
-
+        serializer = SendEmailSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({'success': False, 'req payload': request.data, 'messages': serializer.errors}, status=400)
+        try:
+            request.user.send_email(**serializer.data)
+            return Response({'msg': "发送邮件成功"})
+        except Exception as e:
+            return Response({'req payload': request.data, 'msg': "发送邮件失败:%s" % (e,)}, status=400)
