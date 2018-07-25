@@ -23,15 +23,16 @@ class LoginView(generics.GenericAPIView, mixins.CreateModelMixin):
         form = self.get_serializer(data=request.data, request=request)
         if form.is_valid():
             auth_login(self.request, form.user)
-            return Response({'success': True})
+            return Response({'data': UserSerializer(request.user).data})
         else:
-            return Response({'success': False, 'req payload': request.data, 'messages': form.errors}, status=400)
+            return Response({'req payload': request.data, 'msg': form.errors}, status=400)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated,])
 def loginout(request):
     auth_logout(request)
-    return Response({'success': True})
+    return Response({'msg': "已经登出"})
 
 
 class SendEmailView(generics.GenericAPIView, mixins.CreateModelMixin):
@@ -42,5 +43,8 @@ class SendEmailView(generics.GenericAPIView, mixins.CreateModelMixin):
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return Response({'success': False, 'req payload': request.data, 'messages': serializer.errors}, status=400)
-        request.user.send_email(**serializer.data)
-        return Response({'success': True})
+        try:
+            request.user.send_email(**serializer.data)
+            return Response({'msg': "发送邮件成功"})
+        except Exception as e:
+            return Response({'req payload': request.data, 'msg': "发送邮件失败:%s" % (e,)}, status=400)
