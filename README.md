@@ -7,11 +7,17 @@ cusfast
 
 
     基于django和restframework的开发模板，旨在提高开发效率。
+
     使用方法：
+
     下载代码，将项目名全局替换成你需要的项目名。
+
     更新settings DATABASES 或者写一份自己的 settings_local.py(见最后）
+
     执行migrate应用表到数据库，执行createsuperuser创建管理员。
+
     你可以从cauth模块中找到多种常见功能的写法，拷贝到你需要的位置去。
+
     然后专注于你的开发吧~~
 
 
@@ -21,22 +27,22 @@ cusfast
 1. project
 
     django-admin.py startproject  abmanagement
+
     django-admin.py startapp cauth
 
 2. requirements.txt
 
-    pymysql
-    Django
-    django-cors-headers
-    django-filter
-    djangorestframework
-    jsonfield
-    django-smtp-ssl
-    django-rest-swagger
-    docutils
+        pymysql
+        Django
+        django-cors-headers
+        django-filter
+        djangorestframework
+        jsonfield
+        django-smtp-ssl
+        django-rest-swagger
+        docutils
 
-    pip install -r requirements.txt
-    # -i http://pypi.douban.com/simple/ --trusted-host=pypi.douban.com
+    pip install -r requirements.txt -i http://pypi.douban.com/simple/ --trusted-host=pypi.douban.com
 
 3. settings初步配置
 
@@ -75,9 +81,9 @@ cusfast
 
 5. 数据库 CREATE SCHEMA `qktest_demo` DEFAULT CHARACTER SET utf8 ;
 
-    # python3不支持mysqldb 在主模块__init__.py里加这两句
-    import pymysql
-    pymysql.install_as_MySQLdb()
+    python3不支持mysqldb 在主模块__init__.py里加这两句
+        import pymysql
+        pymysql.install_as_MySQLdb()
     python manage.py makemigrations cauth
     python manage.py migrate
     python manage.py createsuperuser
