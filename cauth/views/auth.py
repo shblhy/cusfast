@@ -2,7 +2,6 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from rest_framework import generics, renderers, mixins
 from rest_framework.decorators import action, permission_classes, api_view
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from cauth.models import User
 from cauth.serializers import UserSerializer, AuthenticationSerializer, SendEmailSerializer
@@ -11,7 +10,6 @@ from cauth.serializers import UserSerializer, AuthenticationSerializer, SendEmai
 class AuthView(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
@@ -38,12 +36,11 @@ def loginout(request):
 
 class SendEmailView(generics.GenericAPIView, mixins.CreateModelMixin):
     serializer_class = SendEmailSerializer
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, format=None):
-        form = self.get_serializer(data=request.data, request=request)
-        if not form.is_valid():
-            return Response({'success': False, 'req payload': request.data, 'messages': form.errors}, status=400)
-        request.user.send_email(**form.cleaned_data)
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({'success': False, 'req payload': request.data, 'messages': serializer.errors}, status=400)
+        request.user.send_email(**serializer.data)
         return Response({'success': True})
