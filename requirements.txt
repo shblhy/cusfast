@@ -1,0 +1,9 @@
+pymysql
+Django
+django-cors-headers
+django-filter
+djangorestframework
+jsonfield
+django-smtp-ssl
+django-rest-swagger
+docutils
