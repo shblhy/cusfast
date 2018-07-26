@@ -27,7 +27,6 @@ def getuser(request):
         'nickname': user.nickname,
         'email': user.email,
         'telephone': user.telephone,
-        'status': user.status,
         'is_staff': user.is_staff,
         'last_login': user.last_login,
         'groups': [g.__unicode__() for g in user.groups.all()]
@@ -49,7 +48,6 @@ class DemoUserView(View):
             'nickname': user.nickname,
             'email': user.email,
             'telephone': user.telephone,
-            'status': user.status,
             'is_staff': user.is_staff,
             'last_login': user.last_login,
             'groups': [g.__unicode__() for g in user.groups.all()]
@@ -74,7 +72,6 @@ class DemoUserListView(View):
                 'nickname': user.nickname,
                 'email': user.email,
                 'telephone': user.telephone,
-                'status': user.status,
                 'is_staff': user.is_staff,
                 'last_login': user.last_login,
                 'groups': [g.__unicode__() for g in user.groups.all()]
