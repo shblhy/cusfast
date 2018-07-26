@@ -1,5 +1,5 @@
 from django.contrib.auth import login as auth_login, logout as auth_logout
-from rest_framework import generics, renderers, mixins
+from rest_framework import generics, renderers, mixins, viewsets
 from rest_framework.decorators import action, permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +7,7 @@ from cauth.models import User
 from cauth.serializers import UserSerializer, AuthenticationSerializer, SendEmailSerializer
 
 
-class AuthView(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
+class AuthView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)

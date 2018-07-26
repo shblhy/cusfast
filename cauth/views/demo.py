@@ -19,7 +19,7 @@ def getuser(request):
     try:
         id = int(id)
     except Exception as e:
-        return HttpResponseBadRequest(e.message)
+        return HttpResponseBadRequest(e)
     user = get_object_or_404(User, pk=id)
     res = {
         'id': user.id,
@@ -29,7 +29,7 @@ def getuser(request):
         'telephone': user.telephone,
         'is_staff': user.is_staff,
         'last_login': user.last_login,
-        'groups': [g.__unicode__() for g in user.groups.all()]
+        'groups': [g.__str__() for g in user.groups.all()]
     }
     return JsonResponse(res)
 
@@ -40,7 +40,7 @@ class DemoUserView(View):
         try:
             id = int(id)
         except Exception as e:
-            return HttpResponseBadRequest(e.message)
+            return HttpResponseBadRequest(e)
         user = get_object_or_404(User, pk=id)
         res = {
             'id': user.id,
@@ -50,7 +50,7 @@ class DemoUserView(View):
             'telephone': user.telephone,
             'is_staff': user.is_staff,
             'last_login': user.last_login,
-            'groups': [g.__unicode__() for g in user.groups.all()]
+            'groups': [g.__str__() for g in user.groups.all()]
         }
         return JsonResponse(res)
 
@@ -74,7 +74,7 @@ class DemoUserListView(View):
                 'telephone': user.telephone,
                 'is_staff': user.is_staff,
                 'last_login': user.last_login,
-                'groups': [g.__unicode__() for g in user.groups.all()]
+                'groups': [g.__str__() for g in user.groups.all()]
             }
             res.append(item)
         return JsonResponse(res, encoder=DjangoTJSONEncoder, safe=False)

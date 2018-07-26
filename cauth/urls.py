@@ -4,13 +4,14 @@ from cauth.views import UserViewSet, GroupViewSet, AuthView, LoginView, loginout
 from cauth.views import DemoUserView, DemoUserListView, DemoAPIView, DemoGListAPIView, DemoGRetrieveAPIView, DemoListAPIView, getuser
 router = routers.DefaultRouter(trailing_slash=False)
 router.register('user', UserViewSet)
+router.register('auth', AuthView)
 router.register('group', GroupViewSet)
 
 
 urlpatterns = [
     url('loginout$', loginout),
     url('login$', LoginView.as_view(), name='login'),
-    url('auth', AuthView.as_view(), name='auth'),
+    # url('auth', AuthView.as_view(), name='auth'),
     url('send_email', SendEmailView.as_view(), name='login'),
 
     # --------------------demo---------------------------
