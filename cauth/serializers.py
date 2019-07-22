@@ -21,6 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserEasySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    username = serializers.CharField()
     class Meta:
         model = User
         fields = ('id', 'username', 'nickname')

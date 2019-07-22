@@ -9,7 +9,7 @@ class UserTest(TestCase):
         User(id=1,
              username='admin',
              nickname='admin',
-             email= 'qq@qq.com',
+             email='qq@qq.com',
              is_staff=True,
              is_superuser=True,
              password='pbkdf2_sha256$36000$gic6cD6CQfgr$QXWqtrAfyCFDjl/B+beGfvS9JzMMMCVUgokVJnKP8D4='

@@ -82,7 +82,7 @@ cusfast
 
     serializers 序列器
 
-    views 试图
+    views 视图
 
     urls
 
